@@ -14,7 +14,7 @@ export class Document {
     }
     appendText(text){
         let lastElement=this._content[this._content.length-1];
-        if(!lastElement instanceof Paragraph)
+        if(!(lastElement instanceof Paragraph))
         {
             lastElement=new Paragraph();
             this.appendBlock(lastElement);

@@ -3,6 +3,7 @@ import {TextNode} from "./textNode";
 
 export class Paragraph extends BlockAbstract {
     constructor() {
+        super();
         this._content = [];
     }
 
