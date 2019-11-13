@@ -1,6 +1,6 @@
 {
   "name": "pmeditor-core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "index.js",
   "repository": "https://github.com/matrix0123456789/pmeditor-core",
   "author": "Mateusz Krawczyk",
