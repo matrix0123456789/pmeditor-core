@@ -11,22 +11,38 @@ export class Document {
         return this._content.slice();
     }
 
-    append(element) {
+    add(element, path=[]) {
         if (element instanceof String)
-            return this.appendText(element);
+            return this.addText(element, path);
     }
 
-    appendText(text) {
+    addText(text, path=[]) {
         let lastElement = this._content[this._content.length - 1];
         if (!(lastElement instanceof Paragraph)) {
             lastElement = new Paragraph();
-            this.appendBlock(lastElement);
+            this.addBlock(lastElement);
         }
-        lastElement.appendText(text);
+        lastElement.addText(text);
     }
 
-    appendBlock(block) {
+    addBlock(block, path=[]) {
         this._content.push(block);
         this.contentChanged.dispatch();
+    }
+
+    getEndPointer() {
+        const last = this._content[this.content.length - 1];
+        if (last)
+            return [last, last.getEndPointer()]
+        else
+            return [];
+    }
+
+    getStartPointer() {
+        const first = this._content[0];
+        if (first)
+            return [first, first.getStartPointer()]
+        else
+            return [];
     }
 }

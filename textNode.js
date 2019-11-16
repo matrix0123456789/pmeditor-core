@@ -4,4 +4,11 @@ export class TextNode extends InlineAbstract{
         super();
         this.content=content;
     }
+    getEndPointer() {
+        return [this.content.length];
+    }
+
+    getStartPointer() {
+        return [0];
+    }
 }
