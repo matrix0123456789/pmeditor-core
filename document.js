@@ -43,4 +43,35 @@ export class Document {
         else
             return [];
     }
+    movePointerLeft(path){
+        let element = path[0];
+        if (!element)
+            return [];
+        let result=element.movePointerLeft(path.slice(1));
+        if(result)
+            return [element, ...result];
+        else{
+            let index=this._content.indexOf(element);
+            if(index>=1)
+                return [this._content[index-1], ...this._content[index - 1].getEndPointer()];
+            else
+                return [];
+        }
+    }
+
+    movePointerRight(path){
+        let element = path[0];
+        if (!element)
+            return [];
+        let result=element.movePointerRight(path.slice(1));
+        if(result)
+            return [element, ...result];
+        else{
+            let index=this._content.indexOf(element);
+            if(this._content[index+1])
+                return [this._content[index+1]];
+            else
+                return path;
+        }
+    }
 }
