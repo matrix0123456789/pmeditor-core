@@ -7,8 +7,4 @@ export class TextNode extends InlineAbstract{
     getEndPointer() {
         return [this.content.length];
     }
-
-    getStartPointer() {
-        return [0];
-    }
 }
