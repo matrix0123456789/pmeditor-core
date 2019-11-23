@@ -30,7 +30,7 @@ export class Document {
     }
 
     addBlock(block, path = []) {
-        let index = this._content.indexOf(this._content);
+        let index = this._content.indexOf(path[0]);
         this._content = [...this._content.slice(0, index + 1), block, ...this._content.slice(index + 1)]
         this.contentChanged.dispatch();
         return [block];
