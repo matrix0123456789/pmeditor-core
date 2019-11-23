@@ -44,6 +44,7 @@ export class Paragraph extends BlockAbstract {
                 return [];
         }
     }
+
     movePointerRight(path) {
         let element = path[0];
         if (!element)
@@ -57,6 +58,23 @@ export class Paragraph extends BlockAbstract {
                 return [this._content[index + 1], this._content[index + 1].movePointerRight([])];
             else
                 return path;
+        }
+    }
+
+    deleteOnce(path) {
+        let element = path[0];
+        if (!element)
+            return [];//todo delete paragraph
+        let result = element.deleteOnce(path.slice(1));
+        if (result)
+            return [element, ...result];
+        else {
+            let index = this._content.indexOf(element);
+            if (index >= 1) {
+                this._content.splice(index, 1);
+                return [this._content[index - 1], ...this._content[index - 1].getEndPointer()];
+            } else
+                return [];//todo delete paragraph
         }
     }
 }
