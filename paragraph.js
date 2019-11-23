@@ -39,7 +39,7 @@ export class Paragraph extends BlockAbstract {
         else {
             let index = this._content.indexOf(element);
             if (index >= 1)
-                return [this._content[index - 1], ...this._content[index - 1].getEndPointer()];
+                return this.movePointerLeft([this._content[index - 1], ...this._content[index - 1].getEndPointer()]);
             else
                 return [];
         }
@@ -72,7 +72,7 @@ export class Paragraph extends BlockAbstract {
             let index = this._content.indexOf(element);
             if (index >= 1) {
                 this._content.splice(index, 1);
-                return [this._content[index - 1], ...this._content[index - 1].getEndPointer()];
+                return this.deleteOnce([this._content[index - 1], ...this._content[index - 1].getEndPointer()]);
             } else
                 return [];//todo delete paragraph
         }

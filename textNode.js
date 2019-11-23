@@ -11,7 +11,7 @@ export class TextNode extends InlineAbstract {
     }
 
     movePointerLeft(path) {
-        if (path[0] > 1)
+        if (path[0] > 0)
             return [path[0] - 1]
         else
             return null;
@@ -26,7 +26,7 @@ export class TextNode extends InlineAbstract {
     }
 
     deleteOnce(path) {
-        if (path[0] > 1) {
+        if (path[0] > 0) {
             this.content = this.content.substr(0, path[0] - 1) + this.content.substr(path[0]);
             return [path[0] - 1]
         } else
