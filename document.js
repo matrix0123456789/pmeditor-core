@@ -49,7 +49,7 @@ export class Document {
         if (!element)
             return [];
         let result = element.movePointerLeft(path.slice(1));
-        if (result)
+        if (result && result.length > 0)
             return [element, ...result];
         else {
             let index = this._content.indexOf(element);
@@ -63,9 +63,9 @@ export class Document {
     movePointerRight(path) {
         let element = path[0];
         if (!element)
-            return [];
+            return [this._content[0]];
         let result = element.movePointerRight(path.slice(1));
-        if (result)
+        if (result && result.length > 0)
             return [element, ...result];
         else {
             let index = this._content.indexOf(element);
@@ -78,11 +78,18 @@ export class Document {
 
     deleteOnce(path) {
         let element = path[0];
+        let previous = this._content[this._content.indexOf(element) - 1];
         if (!element)
             return path;
         if (element.deleteOnce) {
             let newPath = element.deleteOnce(path.slice(1));
-            return [element, ...newPath];
+            if (newPath)
+                return [element, ...newPath];
+            else if (element instanceof Paragraph && previous instanceof Paragraph) {
+                previous.joinContent(element);
+                this._content = this._content.filter(x => x !== element);
+                return [previous, ...previous.getEndPointer()];
+            }
         }
     }
 

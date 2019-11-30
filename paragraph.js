@@ -34,7 +34,7 @@ export class Paragraph extends BlockAbstract {
         if (!element)
             return [];
         let result = element.movePointerLeft(path.slice(1));
-        if (result)
+        if (result && result.length > 0)
             return [element, ...result];
         else {
             let index = this._content.indexOf(element);
@@ -48,23 +48,23 @@ export class Paragraph extends BlockAbstract {
     movePointerRight(path) {
         let element = path[0];
         if (!element)
-            return [];
+            return [this._content[0]];
         let result = element.movePointerRight(path.slice(1));
-        if (result)
+        if (result && result.length > 0)
             return [element, ...result];
         else {
             let index = this._content.indexOf(element);
             if (this._content[index + 1])
                 return [this._content[index + 1], ...this._content[index + 1].movePointerRight([])];
             else
-                return path;
+                return null;
         }
     }
 
     deleteOnce(path) {
         let element = path[0];
         if (!element)
-            return [];//todo delete paragraph
+            return null;
         let result = element.deleteOnce(path.slice(1));
         if (result)
             return [element, ...result];
@@ -74,7 +74,7 @@ export class Paragraph extends BlockAbstract {
                 this._content.splice(index, 1);
                 return this.deleteOnce([this._content[index - 1], ...this._content[index - 1].getEndPointer()]);
             } else
-                return [];//todo delete paragraph
+                return null;
         }
     }
 
@@ -113,7 +113,12 @@ export class Paragraph extends BlockAbstract {
         ret._content = this._content.map(x => x.clone());
         return ret;
     }
-    toText(){
-        return this._content.map(x=>x.toText()).join('');
+
+    toText() {
+        return this._content.map(x => x.toText()).join('');
+    }
+
+    joinContent(node) {
+        this._content = [...this._content, ...node._content];
     }
 }
