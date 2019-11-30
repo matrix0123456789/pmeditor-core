@@ -78,8 +78,42 @@ export class Paragraph extends BlockAbstract {
         }
     }
 
-    serialize(xml){
-        const node=xml.createElement('paragraph')
+    serialize(xml) {
+        const node = xml.createElement('paragraph');
+        for (let child of this._content) {
+            node.append(child.serialize());
+        }
         return node;
+    }
+
+    getFragment(start, end) {
+        let ret = new Paragraph();
+        let started = start.length === 0;
+        for (let node of this._content) {
+            if (!started && start[0] === node) {
+                started = true;
+                if (end[0] === node) {
+                    ret._content.push(node.getFragment(start.slice(1), end.slice(1)));
+                    break;
+                } else {
+                    ret._content.push(node.getFragment(start.slice(1), []));
+                }
+            } else if (started && end[0] === node) {
+                ret._content.push(node.getFragment([], end.slice(1)));
+                break;
+            } else if (started) {
+                ret._content.push(node.clone());
+            }
+        }
+        return ret;
+    }
+
+    clone() {
+        let ret = new Paragraph();
+        ret._content = this._content.map(x => x.clone());
+        return ret;
+    }
+    toText(){
+        return this._content.map(x=>x.toText()).join('');
     }
 }
