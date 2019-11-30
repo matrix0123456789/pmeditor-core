@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="4ee6e607-2e92-4cbe-a0fc-2dc0043d3cbe" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/document.js" beforeDir="false" afterPath="$PROJECT_DIR$/document.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/paragraph.js" beforeDir="false" afterPath="$PROJECT_DIR$/paragraph.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/textNode.js" beforeDir="false" afterPath="$PROJECT_DIR$/textNode.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -38,7 +38,7 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../pmeditor-editor" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../DinnerRecordingSystem" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -72,8 +72,18 @@
       <option name="presentableId" value="Default" />
       <updated>1573665921599</updated>
       <workItem from="1573665922748" duration="2821000" />
-      <workItem from="1574505069311" duration="2593000" />
+      <workItem from="1574505069311" duration="6259000" />
+      <workItem from="1574581809340" duration="34000" />
+      <workItem from="1574581856890" duration="17000" />
     </task>
+    <task id="LOCAL-00001" summary="bugfixes">
+      <created>1574513981010</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1574513981010</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -91,5 +101,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="bugfixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="bugfixes" />
   </component>
 </project>

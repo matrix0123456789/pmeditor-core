@@ -55,7 +55,7 @@ export class Paragraph extends BlockAbstract {
         else {
             let index = this._content.indexOf(element);
             if (this._content[index + 1])
-                return [this._content[index + 1], this._content[index + 1].movePointerRight([])];
+                return [this._content[index + 1], ...this._content[index + 1].movePointerRight([])];
             else
                 return path;
         }
@@ -76,5 +76,10 @@ export class Paragraph extends BlockAbstract {
             } else
                 return [];//todo delete paragraph
         }
+    }
+
+    serialize(xml){
+        const node=xml.createElement('paragraph')
+        return node;
     }
 }

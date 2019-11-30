@@ -85,4 +85,13 @@ export class Document {
             return [element, ...newPath];
         }
     }
+
+    serialize() {
+        const xml = new document.implementation.createDocument(null, pmeditor);
+        for (let child in this._content) {
+            xml.rootElement.append(child.serialize());
+        }
+        const serializer = new XMLSerializer();
+        return serializer.serializeToString(xml);
+    }
 }
