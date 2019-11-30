@@ -31,7 +31,13 @@ export class Document {
 
     addBlock(block, path = []) {
         let index = this._content.indexOf(path[0]);
-        this._content = [...this._content.slice(0, index + 1), block, ...this._content.slice(index + 1)]
+        if (path[0]&&path[0].split && block.joinContent) {
+            let [first, second] = path[0].split(path.slice(1));
+            block.joinContent(second);
+            this._content = [...this._content.slice(0, index), first, block, ...this._content.slice(index + 1)];
+        } else {
+            this._content = [...this._content.slice(0, index + 1), block, ...this._content.slice(index + 1)];
+        }
         this.contentChanged.dispatch();
         return [block];
     }
@@ -122,6 +128,10 @@ export class Document {
         }
         const serializer = new XMLSerializer();
         return serializer.serializeToString(xml);
+    }
+
+    toJSON() {
+        return this.serialize();
     }
 
     clone() {

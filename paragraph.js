@@ -121,4 +121,10 @@ export class Paragraph extends BlockAbstract {
     joinContent(node) {
         this._content = [...this._content, ...node._content];
     }
+
+    split(path) {
+        let left = this.getFragment([], path);
+        let right = this.getFragment(path, this.getEndPointer());
+        return [left, right];
+    }
 }
