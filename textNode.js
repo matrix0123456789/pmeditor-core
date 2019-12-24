@@ -13,6 +13,13 @@ export class TextNode extends InlineAbstract {
         return [this.content.length];
     }
 
+    /**
+     * @override
+     */
+    getStartPointer() {
+        return [0]
+    }
+
     movePointerLeft(path) {
         if (path[0] > 0)
             return [path[0] - 1]

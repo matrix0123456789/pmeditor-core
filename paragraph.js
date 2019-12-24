@@ -26,37 +26,9 @@ export class Paragraph extends BlockAbstract {
         }
     }
 
-    movePointerLeft(path) {
-        let element = path[0];
-        if (!element)
-            return [];
-        let result = element.movePointerLeft(path.slice(1));
-        if (result && result.length > 0)
-            return [element, ...result];
-        else {
-            let index = this._content.indexOf(element);
-            if (index >= 1)
-                return this.movePointerLeft([this._content[index - 1], ...this._content[index - 1].getEndPointer()]);
-            else
-                return [];
-        }
-    }
 
-    movePointerRight(path) {
-        let element = path[0];
-        if (!element)
-            return [this._content[0]];
-        let result = element.movePointerRight(path.slice(1));
-        if (result && result.length > 0)
-            return [element, ...result];
-        else {
-            let index = this._content.indexOf(element);
-            if (this._content[index + 1])
-                return [this._content[index + 1], ...this._content[index + 1].movePointerRight([])];
-            else
-                return null;
-        }
-    }
+
+
 
     deleteOnce(path) {
         let element = path[0];

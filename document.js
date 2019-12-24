@@ -13,6 +13,15 @@ export class Document extends NodeAbstract {
         return this._content.slice();
     }
 
+    movePointerLeft(path) {
+        let result = super.movePointerLeft(path);
+        return result || path;
+    }
+
+    movePointerRight(path) {
+        let result = super.movePointerRight(path);
+        return result || path;
+    }
 
     addText(text, path = []) {
         let element = path[0];
@@ -38,38 +47,6 @@ export class Document extends NodeAbstract {
         }
         this.contentChanged.dispatch();
         return [block];
-    }
-
-    movePointerLeft(path) {
-        let element = path[0];
-        if (!element)
-            return [];
-        let result = element.movePointerLeft(path.slice(1));
-        if (result && result.length > 0)
-            return [element, ...result];
-        else {
-            let index = this._content.indexOf(element);
-            if (index >= 1)
-                return [this._content[index - 1], ...this._content[index - 1].getEndPointer()];
-            else
-                return [];
-        }
-    }
-
-    movePointerRight(path) {
-        let element = path[0];
-        if (!element)
-            return [this._content[0]];
-        let result = element.movePointerRight(path.slice(1));
-        if (result && result.length > 0)
-            return [element, ...result];
-        else {
-            let index = this._content.indexOf(element);
-            if (this._content[index + 1])
-                return [this._content[index + 1]];
-            else
-                return path;
-        }
     }
 
     deleteOnce(path) {
