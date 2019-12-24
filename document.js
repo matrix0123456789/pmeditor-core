@@ -46,7 +46,7 @@ export class Document extends NodeAbstract {
             this._content = [...this._content.slice(0, index + 1), block, ...this._content.slice(index + 1)];
         }
         this.contentChanged.dispatch();
-        return [block];
+        return [block, ...block.getStartPointer()];
     }
 
     deleteOnce(path) {
