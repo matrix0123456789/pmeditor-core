@@ -32,7 +32,7 @@ export class NodeAbstract {
         else {
             let index = this._content.indexOf(element);
             if (index >= 1)
-                return [this._content[index - 1], ...this._content[index - 1].getEndPointer()];
+                return [this._content[index - 1], ...this._content[index - 1].movePointerLeftFromPrevious()];
             else
                 return null;
         }
@@ -48,9 +48,17 @@ export class NodeAbstract {
         else {
             let index = this._content.indexOf(element);
             if (this._content[index + 1])
-                return [this._content[index + 1], ...this._content[index + 1].getStartPointer()];
+                return [this._content[index + 1], ...this._content[index + 1].movePointerRightFromPrevious()];
             else
                 return null;
         }
+    }
+
+    movePointerRightFromPrevious() {
+        return this.getStartPointer();
+    }
+
+    movePointerLeftFromPrevious() {
+        return this.getEndPointer();
     }
 }

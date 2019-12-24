@@ -35,6 +35,14 @@ export class TextNode extends InlineAbstract {
             return null;
     }
 
+    movePointerRightFromPrevious() {
+        return [1];
+    }
+
+    movePointerLeftFromPrevious() {
+        return [this.content.length - 1];
+    }
+
     deleteOnce(path) {
         if (path[0] > 0) {
             this.content = this.content.substr(0, path[0] - 1) + this.content.substr(path[0]);
