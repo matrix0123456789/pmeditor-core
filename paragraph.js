@@ -1,6 +1,7 @@
 import {BlockAbstract} from "./blockAbstract";
 import {TextNode} from "./textNode";
 import {CreateEventDispatcher} from "./eventDispatcher";
+import {ParseXml} from "./parser";
 
 export class Paragraph extends BlockAbstract {
     constructor() {
@@ -15,7 +16,7 @@ export class Paragraph extends BlockAbstract {
 
     addText(text, path = []) {
         if (path.length > 1 && path[0].addText) {
-            let newPath=path[0].addText(text, path.slice(1))
+            let newPath = path[0].addText(text, path.slice(1))
             return [path[0], ...newPath];
         } else {
             let index = this._content.indexOf(path[0]);
@@ -25,9 +26,6 @@ export class Paragraph extends BlockAbstract {
             return [node, ...node.getEndPointer()];
         }
     }
-
-
-
 
 
     deleteOnce(path) {
@@ -55,27 +53,6 @@ export class Paragraph extends BlockAbstract {
         return node;
     }
 
-    getFragment(start, end) {
-        let ret = new Paragraph();
-        let started = start.length === 0;
-        for (let node of this._content) {
-            if (!started && start[0] === node) {
-                started = true;
-                if (end[0] === node) {
-                    ret._content.push(node.getFragment(start.slice(1), end.slice(1)));
-                    break;
-                } else {
-                    ret._content.push(node.getFragment(start.slice(1), []));
-                }
-            } else if (started && end[0] === node) {
-                ret._content.push(node.getFragment([], end.slice(1)));
-                break;
-            } else if (started) {
-                ret._content.push(node.clone());
-            }
-        }
-        return ret;
-    }
 
     clone() {
         let ret = new Paragraph();
@@ -95,5 +72,17 @@ export class Paragraph extends BlockAbstract {
         let left = this.getFragment([], path);
         let right = this.getFragment(path, this.getEndPointer());
         return [left, right];
+    }
+
+    static fromXml(xml) {
+        let ret = new Paragraph();
+        ret._content = Array.from(xml.childNodes).map(x => {
+            if (x instanceof Text) {
+                return new TextNode(x.textContent);
+            } else {
+                return ParseXml(x);
+            }
+        });
+        return ret;
     }
 }

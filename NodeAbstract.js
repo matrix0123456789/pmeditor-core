@@ -1,18 +1,20 @@
+import {Path} from "./path";
+
 export class NodeAbstract {
     getEndPointer() {
         const last = this._content[this._content.length - 1];
         if (last)
-            return [last, ...last.getEndPointer()]
+            return new Path(last).append(last.getEndPointer());
         else
-            return [];
+            return Path.empty;
     }
 
     getStartPointer() {
         const first = this._content[0];
         if (first)
-            return [first, ...first.getStartPointer()]
+            return new Path(first).append(first.getStartPointer())
         else
-            return [];
+            return Path.empty;
     }
 
     add(element, path = []) {
@@ -25,14 +27,15 @@ export class NodeAbstract {
     movePointerLeft(path) {
         let element = path[0];
         if (!element)
-            return [];
+            return Path.empty;
         let result = element.movePointerLeft(path.slice(1));
         if (result && result.length > 0)
             return [element, ...result];
         else {
             let index = this._content.indexOf(element);
+            let previous = this._content[index - 1];
             if (index >= 1)
-                return [this._content[index - 1], ...this._content[index - 1].movePointerLeftFromPrevious()];
+                return new Path(previous).append(previous.movePointerLeftFromPrevious());
             else
                 return null;
         }
@@ -47,8 +50,9 @@ export class NodeAbstract {
             return [element, ...result];
         else {
             let index = this._content.indexOf(element);
-            if (this._content[index + 1])
-                return [this._content[index + 1], ...this._content[index + 1].movePointerRightFromPrevious()];
+            let next = this._content[index + 1];
+            if (next)
+                return new Path(next).append(next.movePointerRightFromPrevious());
             else
                 return null;
         }
@@ -60,5 +64,27 @@ export class NodeAbstract {
 
     movePointerLeftFromPrevious() {
         return this.getEndPointer();
+    }
+
+    getFragment(start, end) {
+        let ret = new this.constructor();
+        let started = start.length === 0;
+        for (let node of this._content) {
+            if (!started && start[0] === node) {
+                started = true;
+                if (end[0] === node) {
+                    ret._content.push(node.getFragment(start.slice(1), end.slice(1)));
+                    break;
+                } else {
+                    ret._content.push(node.getFragment(start.slice(1), []));
+                }
+            } else if (started && end[0] === node) {
+                ret._content.push(node.getFragment([], end.slice(1)));
+                break;
+            } else if (started) {
+                ret._content.push(node.clone());
+            }
+        }
+        return ret;
     }
 }

@@ -1,6 +1,7 @@
 import {Paragraph} from "./paragraph";
 import {CreateEventDispatcher} from "./eventDispatcher";
 import {NodeAbstract} from "./NodeAbstract";
+import {ParseXml} from "./parser";
 
 export class Document extends NodeAbstract {
     constructor() {
@@ -66,27 +67,6 @@ export class Document extends NodeAbstract {
         }
     }
 
-    getFragment(start, end) {
-        let ret = new Document();
-        let started = start.length === 0;
-        for (let node of this._content) {
-            if (!started && start[0] === node) {
-                started = true;
-                if (end[0] === node) {
-                    ret._content.push(node.getFragment(start.slice(1), end.slice(1)));
-                    break;
-                } else {
-                    ret._content.push(node.getFragment(start.slice(1), []));
-                }
-            } else if (started && end[0] === node) {
-                ret._content.push(node.getFragment([], end.slice(1)));
-                break;
-            } else if (started) {
-                ret._content.push(node.clone());
-            }
-        }
-        return ret;
-    }
 
     serialize() {
         const xml = document.implementation.createDocument(null, 'pmeditor');
@@ -109,5 +89,11 @@ export class Document extends NodeAbstract {
 
     toText() {
         return this._content.map(x => x.toText()).join('\r\n');
+    }
+
+    static fromXml(xml) {
+        let ret = new Document();
+        ret._content = Array.from(xml.childNodes).map(x => ParseXml(x));
+        return ret;
     }
 }
