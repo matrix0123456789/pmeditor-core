@@ -6,6 +6,9 @@ export class TextNode extends InlineAbstract {
         this.content = content;
     }
 
+    /**
+     * @override
+     */
     getEndPointer() {
         return [this.content.length];
     }
@@ -33,6 +36,11 @@ export class TextNode extends InlineAbstract {
             return null;
     }
 
+    addText(text, path) {
+        this.content = this.content.substr(0, path[0]) + text + this.content.substr(path[0]);
+        return [path[0] + 1]
+    }
+
     getFragment(start, end) {
         let ret = new TextNode();
         if (start.length === 0) {
@@ -57,10 +65,12 @@ export class TextNode extends InlineAbstract {
         ret.content = this.content;
         return ret;
     }
-    serialize(){
+
+    serialize() {
         return this.content;
     }
-    toText(){
+
+    toText() {
         return this.content;
     }
 }

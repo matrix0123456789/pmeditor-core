@@ -1,8 +1,10 @@
 import {Paragraph} from "./paragraph";
 import {CreateEventDispatcher} from "./eventDispatcher";
+import {NodeAbstract} from "./NodeAbstract";
 
-export class Document {
+export class Document extends NodeAbstract {
     constructor() {
+        super();
         this._content = [];
         this.contentChanged = CreateEventDispatcher();
     }
@@ -11,10 +13,6 @@ export class Document {
         return this._content.slice();
     }
 
-    add(element, path = []) {
-        if (element instanceof String)
-            return this.addText(element, path);
-    }
 
     addText(text, path = []) {
         let element = path[0];
@@ -31,7 +29,7 @@ export class Document {
 
     addBlock(block, path = []) {
         let index = this._content.indexOf(path[0]);
-        if (path[0]&&path[0].split && block.joinContent) {
+        if (path[0] && path[0].split && block.joinContent) {
             let [first, second] = path[0].split(path.slice(1));
             block.joinContent(second);
             this._content = [...this._content.slice(0, index), first, block, ...this._content.slice(index + 1)];
@@ -40,14 +38,6 @@ export class Document {
         }
         this.contentChanged.dispatch();
         return [block];
-    }
-
-    getEndPointer() {
-        const last = this._content[this.content.length - 1];
-        if (last)
-            return [last, ...last.getEndPointer()]
-        else
-            return [];
     }
 
     movePointerLeft(path) {

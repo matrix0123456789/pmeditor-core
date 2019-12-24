@@ -14,19 +14,16 @@ export class Paragraph extends BlockAbstract {
     }
 
     addText(text, path = []) {
-        let index = this._content.indexOf(path[0]);
-        let node = new TextNode(text);
-        this._content = [...this._content.slice(0, index + 1), node, ...this._content.slice(index + 1)]
-        this.contentChanged.dispatch();
-        return [node, ...node.getEndPointer()];
-    }
-
-    getEndPointer() {
-        const last = this._content[this.content.length - 1];
-        if (last)
-            return [last, ...last.getEndPointer()]
-        else
-            return [];
+        if (path.length > 1 && path[0].addText) {
+            let newPath=path[0].addText(text, path.slice(1))
+            return [path[0], ...newPath];
+        } else {
+            let index = this._content.indexOf(path[0]);
+            let node = new TextNode(text);
+            this._content = [...this._content.slice(0, index + 1), node, ...this._content.slice(index + 1)]
+            this.contentChanged.dispatch();
+            return [node, ...node.getEndPointer()];
+        }
     }
 
     movePointerLeft(path) {
