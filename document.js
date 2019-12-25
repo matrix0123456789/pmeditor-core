@@ -50,6 +50,41 @@ export class Document extends NodeAbstract {
         return [block, ...block.getStartPointer()];
     }
 
+    addSubdocument(subdocument, path) {
+        let endPath = [];
+        let index = this._content.indexOf(path[0]);
+        if (path[0] && path[0].split) {
+            let [first, second] = path[0].split(path.slice(1));
+            let toAdd = subdocument.content.slice();
+            for (let i = 0; i < toAdd.length; i++) {
+                let block = toAdd[i];
+                if (i === 0) {
+                    if (first.joinContent && block.joinContent) {
+                        first.joinContent(block);
+                        toAdd[i] = first;
+                    } else {
+                        toAdd = [first, ...toAdd];
+                        i++;
+                    }
+                }
+                if (i === toAdd.length - 1) {
+                    endPath = [toAdd[i], ...toAdd[i].getEndPointer()];
+                    if (second.joinContent && block.joinContent) {
+                        toAdd[i].joinContent(second);
+                    } else {
+                        toAdd.push(second);
+                    }
+                }
+            }
+            this._content = [...this._content.slice(0, index), ...toAdd, ...this._content.slice(index + 1)];
+        } else {
+            this._content = [...this._content.slice(0, index + 1), ...subdocument.content, ...this._content.slice(index + 1)];
+            let last = subdocument.content[subdocument.content.length - 1];
+            endPath = [last, ...last.getEndPointer()];
+        }
+        return endPath;
+    }
+
     deleteOnce(path) {
         let element = path[0];
         let previous = this._content[this._content.indexOf(element) - 1];
