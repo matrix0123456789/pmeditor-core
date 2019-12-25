@@ -1,7 +1,7 @@
 import {BlockAbstract} from "./blockAbstract";
 import {TextNode} from "./textNode";
 import {CreateEventDispatcher} from "./eventDispatcher";
-import {ParseXml} from "./parser";
+import {ParseXml} from "./parsers/xml";
 
 export class Paragraph extends BlockAbstract {
     constructor() {

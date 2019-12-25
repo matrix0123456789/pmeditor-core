@@ -1,5 +1,5 @@
-import {Paragraph} from "./paragraph";
-import {Document} from "./document";
+import {Paragraph} from "../paragraph";
+import {Document} from "../document";
 
 export function ParseXmlString(xmlString) {
     let parser = new DOMParser();

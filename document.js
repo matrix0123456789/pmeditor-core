@@ -1,12 +1,12 @@
 import {Paragraph} from "./paragraph";
 import {CreateEventDispatcher} from "./eventDispatcher";
 import {NodeAbstract} from "./NodeAbstract";
-import {ParseXml} from "./parser";
+import {ParseXml} from "./parsers/xml";
 
 export class Document extends NodeAbstract {
-    constructor() {
+    constructor(content = []) {
         super();
-        this._content = [];
+        this._content = content;
         this.contentChanged = CreateEventDispatcher();
     }
 
