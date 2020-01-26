@@ -1,4 +1,4 @@
-name: Node.js Package
+name: YARN package publish
 
 on: [push]
 
@@ -18,7 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Auto publish to NPM
-        uses: luvies/action-yarn-publish@v0.1.1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.yarntoken }}
