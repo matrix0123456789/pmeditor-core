@@ -95,12 +95,12 @@ export class Document extends NodeAbstract {
             if (newPath)
                 return [element, ...newPath];
             else if (element instanceof Paragraph && previous instanceof Paragraph) {
+                let endPointer=previous.getEndPointer();
                 previous.joinContent(element);
                 this._content = this._content.filter(x => x !== element);
-                return [previous, ...previous.getEndPointer()];
+                return [previous, ...endPointer];
             }
         }
-        return [];
     }
 
 
