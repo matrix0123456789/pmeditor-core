@@ -100,6 +100,7 @@ export class Document extends NodeAbstract {
                 return [previous, ...previous.getEndPointer()];
             }
         }
+        return [];
     }
 
 
